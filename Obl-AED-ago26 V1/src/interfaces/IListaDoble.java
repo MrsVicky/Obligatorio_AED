@@ -4,10 +4,23 @@
  */
 package interfaces;
 
-/**
- *
- * @author default
- */
-public interface IListaDoble {
-    
+public interface IListaDoble<T> {
+
+    boolean esVacia();
+
+    void agregarInicio(T dato);
+    void agregarFin(T dato);
+    void agregarOrd(T dato);
+
+    void eliminarInicio();
+    void eliminarFin();
+    void eliminarElemento(T dato);
+
+    T obtenerElemento(T dato);
+    boolean buscarElemento(T dato);
+
+    String mostrar();
+    String mostrarDescendente();
+
+    int cantNodos();
 }
