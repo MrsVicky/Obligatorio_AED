@@ -8,9 +8,9 @@ import tads.Cola;
 import tads.ListaSimple;
 import tads.Pila;
 
-public class Region {
+public class Region implements Comparable <Region>{
 
-    private String codigo;
+    private String codigoReg;
     private String nombre;
     private String pais;
     private String zona;
@@ -20,10 +20,10 @@ public class Region {
     private Pila<Despliegue> historial;
  
     // Constructor
-    public Region(String codigo, String nombre,
+    public Region(String codigoReg, String nombre,
                   String pais, String zona) {
 
-        this.codigo = codigo;
+        this.codigoReg = codigoReg;
         this.nombre = nombre;
         this.pais = pais;
         this.zona = zona;
@@ -34,13 +34,15 @@ public class Region {
     }
 
     // Getters y setters
-    public String getCodigo() {
-        return codigo;
+
+    public String getCodigoReg() {
+        return codigoReg;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setCodigoReg(String codigoReg) {
+        this.codigoReg = codigoReg;
     }
+
 
     public String getNombre() {
         return nombre;
@@ -81,6 +83,17 @@ public class Region {
     // Representación de la región
     @Override
     public String toString() {
-        return codigo + ";" + nombre + ";" + pais + ";" + zona;
+        return codigoReg + ";" + nombre + ";" + pais + ";" + zona;
+    }
+    
+    @Override
+    public boolean equals(Object o){
+    return this.getCodigoReg().equalsIgnoreCase(((Region)o).getCodigoReg());
+    }
+
+    @Override
+    public int compareTo(Region o) {
+     return this.getCodigoReg().compareTo(o.getCodigoReg());
+
     }
 }
