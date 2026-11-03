@@ -17,7 +17,8 @@ public class Cola<T> implements ICola<T> {
         Nodo sig;
         Nodo(T d) { dato = d; }
     }
-    private Nodo frente, fondo;
+    private Nodo frente;
+    private Nodo fondo;
     private int tamaño = 0;
 
     public Cola() {

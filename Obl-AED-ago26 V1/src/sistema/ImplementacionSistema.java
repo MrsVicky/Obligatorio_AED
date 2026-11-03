@@ -1,6 +1,7 @@
 package sistema;
 
-//Agregar aquí nombres y números de estudiante de los integrantes del equipo
+//Octavio Imperial 354244
+//Victoria Martinez 365013
 public class ImplementacionSistema implements Sistema {
 
     @Override
