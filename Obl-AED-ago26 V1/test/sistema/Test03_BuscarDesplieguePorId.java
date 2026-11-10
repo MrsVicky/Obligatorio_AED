@@ -6,12 +6,12 @@ import sistema.ImplementacionSistema;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import sistema.Sistema;
+import interfaces.ISistema;
 
 public class Test03_BuscarDesplieguePorId {
 
     private Retorno retorno;
-    private final Sistema s = new ImplementacionSistema();
+    private final ISistema s = new ImplementacionSistema();
 
     @Before
     public void setUp() {

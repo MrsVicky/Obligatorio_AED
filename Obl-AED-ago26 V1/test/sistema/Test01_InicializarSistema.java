@@ -1,15 +1,15 @@
 package sistema;
 
-import sistema.Sistema;
 import sistema.ImplementacionSistema;
 import sistema.Retorno;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import interfaces.ISistema;
 
 public class Test01_InicializarSistema {
 
     private Retorno retorno;
-    private final Sistema s = new ImplementacionSistema();
+    private final ISistema s = new ImplementacionSistema();
 
     @Test
     public void inicializarSistemaOk() {

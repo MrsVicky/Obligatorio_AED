@@ -1,17 +1,17 @@
 package sistema;
 
-import sistema.Sistema;
 import sistema.ImplementacionSistema;
 import sistema.Modalidad;
 import sistema.Retorno;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import interfaces.ISistema;
 
 public class Test02_RegistrarDespliegue {
 
     private Retorno retorno;
-    private final Sistema s = new ImplementacionSistema();
+    private final ISistema s = new ImplementacionSistema();
 
     @Before
     public void setUp() {

@@ -72,7 +72,7 @@ public class Despliegue implements Comparable <Despliegue>{
         
         return idDes + ";" + codigoDes + ";" + descripcion + ";" + cuantizado + ";" + modalidad;  
     }
-    
+          
     
     @Override
     public boolean equals(Object o){
