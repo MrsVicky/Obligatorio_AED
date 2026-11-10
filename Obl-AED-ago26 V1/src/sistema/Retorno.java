@@ -3,7 +3,7 @@ package sistema;
 public class Retorno {
 
     public enum Resultado {
-        OK, ERROR_1, ERROR_2, ERROR_3, ERROR_4, ERROR_5, ERROR_6, ERROR_7, ERROR_8, NO_IMPLEMENTADA
+        OK, ERROR_1, ERROR_2, ERROR_3, ERROR_4, ERROR_5, ERROR_6, ERROR_7, ERROR_8,IMPLEMENTADA, NO_IMPLEMENTADA
     };
     private int valorEntero;
     private String valorString;

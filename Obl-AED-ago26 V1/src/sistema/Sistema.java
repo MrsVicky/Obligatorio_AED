@@ -1,9 +1,9 @@
-package interfaces;
+package sistema;
 
 import sistema.Modalidad;
 import sistema.Retorno;
 
-public interface ISistema {
+public interface Sistema {
     
   Retorno inicializarSistema();
 

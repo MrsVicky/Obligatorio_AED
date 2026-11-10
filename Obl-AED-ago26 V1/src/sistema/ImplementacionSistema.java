@@ -6,12 +6,11 @@ import tads.Cola;
 import tads.ListaDoble;
 import tads.ListaSimple;
 import tads.Pila;
-import interfaces.ISistema;
 
 
 //Octavio Imperial 354244
 //Victoria Martinez 365013
-public class ImplementacionSistema implements ISistema {
+public class ImplementacionSistema implements Sistema {
     
     private ListaDoble<Despliegue> DesPorId;
     private ListaDoble<DesXCodigo> DesPorCod;

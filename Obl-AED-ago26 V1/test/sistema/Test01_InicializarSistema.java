@@ -4,12 +4,11 @@ import sistema.ImplementacionSistema;
 import sistema.Retorno;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import interfaces.ISistema;
 
 public class Test01_InicializarSistema {
 
     private Retorno retorno;
-    private final ISistema s = new ImplementacionSistema();
+    private final Sistema s = new ImplementacionSistema();
 
     @Test
     public void inicializarSistemaOk() {
