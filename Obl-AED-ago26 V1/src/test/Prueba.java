@@ -1,10 +1,11 @@
 package test;
 
 //import tarea0.Retorno.Resultado;
-import test.Retorno.Resultado;
-import test.Retorno.Resultado;
-import static test.Retorno.Resultado.ERROR_6;
-import static test.Retorno.Resultado.NO_IMPLEMENTADA;
+import sistema.Retorno;
+import sistema.Retorno.Resultado;
+import sistema.Retorno.Resultado;
+import static sistema.Retorno.Resultado.ERROR_6;
+import static sistema.Retorno.Resultado.NO_IMPLEMENTADA;
 
 public class Prueba {
 
