@@ -16,7 +16,7 @@ public class Region implements Comparable <Region>{
     private String zona;
 
     private Cola<Despliegue> pendientes;
-    private ListaSimple<Despliegue> activos;
+    private ListaSimple<DesXCodigo> activos;
     private Pila<Despliegue> historial;
  
     // Constructor
@@ -72,7 +72,7 @@ public class Region implements Comparable <Region>{
         return pendientes;
     }
 
-    public ListaSimple<Despliegue> getActivos() {
+    public ListaSimple<DesXCodigo> getActivos() {
         return activos;
     }
 
@@ -88,7 +88,7 @@ public class Region implements Comparable <Region>{
     
     @Override
     public boolean equals(Object o){
-    return this.getCodigoReg().equalsIgnoreCase(((Region)o).getCodigoReg());
+    return this.getCodigoReg().equals(((Region) o).getCodigoReg());
     }
 
     @Override

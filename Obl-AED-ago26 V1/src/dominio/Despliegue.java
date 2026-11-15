@@ -70,13 +70,13 @@ public class Despliegue implements Comparable <Despliegue>{
     @Override
     public String toString(){       
         
-        return idDes + ";" + codigoDes + ";" + descripcion + ";" + cuantizado + ";" + modalidad;  
+        return idDes + ";" + codigoDes + ";" + descripcion + ";" + cuantizado + ";" + modalidad.getTexto();  
     }
           
     
     @Override
     public boolean equals(Object o){
-    return this.getIdDes().equalsIgnoreCase(((Despliegue)o).getIdDes());
+    return this.getIdDes().equals(((Despliegue) o).getIdDes());
     }
     
     @Override

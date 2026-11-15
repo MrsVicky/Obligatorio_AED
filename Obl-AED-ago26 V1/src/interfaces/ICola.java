@@ -14,4 +14,5 @@ public interface ICola<T> {
     T frente();
     boolean esVacia();
     int tamaño();
+    boolean contiene(T dato);
 }
