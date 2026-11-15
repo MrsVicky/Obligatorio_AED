@@ -16,5 +16,6 @@ public interface IListaSimple<T> {
     int largo();
     T obtener(int posicion);
     boolean esVacia();
+    void addOrd(T dato);
 }
 

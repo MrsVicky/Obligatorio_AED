@@ -78,6 +78,13 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno registrarRegion(String codigo, String nombre, String pais, String zona) {
+        
+        Region nueva = new Region(codigo,nombre,pais,zona);
+        
+        
+        
+        
+        
         return Retorno.noImplementada();
     }
 
