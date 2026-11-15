@@ -13,6 +13,8 @@ import interfaces.IListaSimple;
 
 public class ListaSimple<T> implements IListaSimple<T> {
 
+    
+
     private class Nodo {
         T dato;
         Nodo siguiente;
@@ -75,6 +77,42 @@ public class ListaSimple<T> implements IListaSimple<T> {
         }
         largo++;
     }
+    
+    @Override
+    public void addOrd(T dato) {
+        
+        Nodo nuevo = new Nodo(dato);
+        if(this.esVacia()){
+        agregarInicio(dato);
+        }else{
+            
+        
+        
+        
+        } 
+    }
+    /*
+    if ( this.esVacia()||dato<this.primero.dato ){
+            this.agregarInicio(dato);
+        }else{
+            if (dato>this.ultimo.dato){
+                this.agregarFin(dato);
+            }else{
+                nodo aux=this.getPrimero();
+                nodo nuevo= new nodo(dato);
+                while (aux.siguiente.getDato()<dato){
+                    aux=aux.siguiente;
+                }
+                nuevo.siguiente=aux.siguiente;
+                nuevo.anterior=aux;
+                aux.siguiente.anterior=nuevo;
+                aux.siguiente=nuevo;
+                this.cantnodos++;
+            }
+            
+        }
+    
+    */
 
     @Override
     public boolean eliminar(T dato) {
