@@ -1,13 +1,9 @@
 package sistema;
 
 
-import sistema.Retorno.Resultado;
-import sistema.ImplementacionSistema;
-import sistema.Sistema;
 import test.Prueba;
-
-
-
+import sistema.Retorno;
+import sistema.Retorno.Resultado;
 
 public class Main {
 
@@ -16,7 +12,22 @@ public class Main {
         Prueba prueba = new Prueba();
 
         prueba.inicializarResultadosPrueba();
-        juegoDePrueba1(sistema, prueba);
+        //juegoDePrueba1(sistema, prueba);                                // todas las prueba 
+        
+        juegodepruebaRegistrarDespliegue(sistema,prueba);            //02
+        juegodepreubaBuscarDespliegue(sistema,prueba);               //03
+        juegodepruebaDesplieguesPorIDAsc(sistema, prueba);           //04
+        juegodepruebaDespoieguesPorIDDesc(sistema, prueba);          //05
+        juegodepruebaBuscarDesplieguePorCodigo(sistema,prueba);      //06
+        juegodepruebaListarDesplieguesPorCodigoASC(sistema, prueba); //07
+        juegodepruebaListarDesplieguesPorModalidad(sistema, prueba); //08
+        juegodepruebaRegistrarRegion(sistema, prueba);               //09      
+        juegodepruebaObtenerRegion(sistema, prueba);                 //10    
+        juegodepruebaSolicitudDespliegue(sistema, prueba);           //11
+        juegodepruebaProcesarDespliegue(sistema, prueba);            //12        
+        juegodepruebaDesplieguesActivos(sistema, prueba);            //13    
+        juegodepruebaRetirarUltimoDespliegue(sistema,prueba);        //14           
+        juegodepruebaVerificacion(sistema, prueba);                   // verificaciones   
         prueba.imprimirResultadosPrueba();
     }
 
@@ -83,7 +94,6 @@ public class Main {
         p.ver(s.solicitarDespliegueEnRegion("100", "1").getResultado(), Resultado.ERROR_2, "Error 2 se hace una solicitud para el despliegue 1 que no existe");
 
     }
-
     public static void juegoDePrueba1(Sistema s, Prueba p) {
         //public static void juegoDePrueba(ISistema s, Prueba p) {
 
@@ -92,6 +102,7 @@ public class Main {
         // =========================================================
         // 01 - INICIALIZAR SISTEMA
         // =========================================================
+        p.tituloPrueba("01 - INICIALIZAR SISTEMA");
         p.ver(s.inicializarSistema().getResultado(), Resultado.OK,
                 "01 - Se inicializo el sistema");
 
@@ -205,6 +216,9 @@ public class Main {
                 true, Modalidad.TEXTO).getResultado(),
                 Resultado.ERROR_2, "Prioridad - ERROR_2 antes que duplicidad de id");
 
+        System.out.println("\n>>> ESTRUCTURAS LUEGO DE REGISTRAR DESPLIEGUES");
+      //  s.imprimirEstadoEstructuras();
+
         // =========================================================
         // 03 - BUSCAR DESPLIEGUE POR ID
         // =========================================================
@@ -233,6 +247,9 @@ public class Main {
         p.ver(s.listarDesplieguesPorIdAscendente().getResultado(),
                 Resultado.OK, "Listado de despliegues por id ascendente");
 
+        System.out.println("\n>>> RESULTADO DEL LISTADO POR ID ASCENDENTE");
+        imprimirDatosRetorno(s.listarDesplieguesPorIdAscendente());
+
         // =========================================================
         // 05 - LISTAR DESPLIEGUES POR ID DESCENDENTE
         // =========================================================
@@ -240,6 +257,9 @@ public class Main {
 
         p.ver(s.listarDesplieguesPorIdDescendente().getResultado(),
                 Resultado.OK, "Listado de despliegues por id descendente");
+
+        System.out.println("\n>>> RESULTADO DEL LISTADO POR ID DESCENDENTE");
+        imprimirDatosRetorno(s.listarDesplieguesPorIdDescendente());
 
         // =========================================================
         // 06 - BUSCAR DESPLIEGUE POR CODIGO
@@ -272,6 +292,9 @@ public class Main {
         p.ver(s.listarDesplieguesPorCodigoAscendente().getResultado(),
                 Resultado.OK, "Listado de despliegues por codigo ascendente");
 
+        System.out.println("\n>>> RESULTADO DEL LISTADO POR CODIGO ASCENDENTE");
+        imprimirDatosRetorno(s.listarDesplieguesPorCodigoAscendente());
+
         // =========================================================
         // 08 - LISTAR DESPLIEGUES POR MODALIDAD
         // =========================================================
@@ -294,7 +317,13 @@ public class Main {
 
         p.ver(s.listarDesplieguesPorModalidad(null).getResultado(),
                 Resultado.ERROR_1, "ERROR_1 - Modalidad null");
-        
+
+        System.out.println("\n>>> DESPLIEGUES AGRUPADOS POR MODALIDAD");
+        for (Modalidad modalidad : Modalidad.values()) {
+            System.out.println("MODALIDAD: " + modalidad);
+            imprimirDatosRetorno(s.listarDesplieguesPorModalidad(modalidad));
+        }
+
         // =========================================================
         // 09 - REGISTRAR REGION
         // =========================================================
@@ -341,6 +370,9 @@ public class Main {
 
         p.ver(s.registrarRegion("us-east-1", "Otra region", "Otro pais", "Z").getResultado(),
                 Resultado.ERROR_2, "ERROR_2 - Codigo de region duplicado");
+
+        System.out.println("\n>>> ESTRUCTURAS LUEGO DE REGISTRAR REGIONES");
+       // s.imprimirEstadoEstructuras();
 
         // =========================================================
         // 10 - OBTENER REGION
@@ -401,6 +433,9 @@ public class Main {
         p.ver(s.solicitarDespliegueEnRegion("DEP-0001", "us-east-1").getResultado(),
                 Resultado.ERROR_4, "ERROR_4 - Despliegue ya pendiente en esa region");
 
+        System.out.println("\n>>> ESTRUCTURAS LUEGO DE SOLICITAR DESPLIEGUES (COLAS FIFO)");
+        //s.imprimirEstadoEstructuras();
+
         // =========================================================
         // 12 - PROCESAR SIGUIENTE DESPLIEGUE
         // =========================================================
@@ -437,6 +472,10 @@ public class Main {
         p.ver(s.procesarSiguienteDespliegue("sa-east-1").getResultado(),
                 Resultado.OK, "Procesar despliegue en otra region");
 
+        System.out.println("\n>>> ESTRUCTURAS LUEGO DE PROCESAR DESPLIEGUES (COLAS, PILAS Y ACTIVOS)");
+        //
+       // s.imprimirEstadoEstructuras();
+
         // =========================================================
         // 13 - LISTAR DESPLIEGUES ACTIVOS DE UNA REGION
         // =========================================================
@@ -459,6 +498,11 @@ public class Main {
 
         p.ver(s.listarDesplieguesActivosDeRegion("xx-unknown").getResultado(),
                 Resultado.ERROR_2, "ERROR_2 - Region inexistente");
+
+        System.out.println("\n>>> DESPLIEGUES ACTIVOS POR REGION");
+        imprimirDatosRetorno(s.listarDesplieguesActivosDeRegion("us-east-1"));
+        imprimirDatosRetorno(s.listarDesplieguesActivosDeRegion("eu-west-1"));
+//        s.imprimirEstadoEstructuras();
 
         // =========================================================
         // 14 - RETIRAR ULTIMO DESPLIEGUE PROCESADO
@@ -499,6 +543,9 @@ public class Main {
 
         p.ver(s.retirarUltimoDespliegueProcesado("eu-west-1").getResultado(),
                 Resultado.ERROR_3, "ERROR_3 - Region sin despliegues procesados activos");
+//
+//        System.out.println("\n>>> ESTRUCTURAS LUEGO DE RETIRAR DESPLIEGUES (VERIFICACION LIFO)");
+//        s.imprimirEstadoEstructuras();
 
         // =========================================================
         // VERIFICAR REINICIALIZACION
@@ -528,5 +575,537 @@ public class Main {
 
         p.tituloPrueba("FIN DE LAS PRUEBAS");
     }
+    private static void imprimirDatosRetorno(Retorno retorno) {
+        if (retorno == null || retorno.getValorString() == null || retorno.getValorString().isEmpty()) {
+            System.out.println("  (sin elementos)");
+            return;
+        }
+        String[] registros = retorno.getValorString().split("\\|");
+        for (int i = 0; i < registros.length; i++) {
+            System.out.println("  " + (i + 1) + ". " + registros[i]);
+        }
+    }
+    
+    //---------------------------------------------------------------------
+    // PRUBAS UNITARIAS
+    //---------------------------------------------------------------------
+    public static void juegodepruebaInicializarSistema(Sistema s, Prueba p){
+            p.tituloPrueba("INICIO DE PRUEBAS - OBLIGATORIO AGOSTO 2026");
 
+        // =========================================================
+        // 01 - INICIALIZAR SISTEMA
+        // =========================================================
+        p.tituloPrueba("01 - INICIALIZAR SISTEMA");
+        p.ver(s.inicializarSistema().getResultado(), Resultado.OK,
+                "01 - Se inicializo el sistema");
+    }
+    public static void juegodepruebaRegistrarDespliegue(Sistema s, Prueba p) {
+            // =========================================================
+        // 02 - REGISTRAR DESPLIEGUE
+        // =========================================================
+        p.tituloPrueba("02 - REGISTRAR DESPLIEGUE");
+
+        p.ver(s.registrarDespliegue("DEP-0001", "LLM-070-A1B2",
+                "Modelo de texto 70B", true, Modalidad.TEXTO).getResultado(),
+                Resultado.OK, "Registro correcto de despliegue TEXTO");
+
+        p.ver(s.registrarDespliegue("DEP-0002", "VIS-004-C3D4",
+                "Modelo de vision 4B", false, Modalidad.VISION).getResultado(),
+                Resultado.OK, "Registro correcto de despliegue VISION");
+
+        p.ver(s.registrarDespliegue("DEP-0003", "AUD-002-E5F6",
+                "Modelo de audio 2B", false, Modalidad.AUDIO).getResultado(),
+                Resultado.OK, "Registro correcto de despliegue AUDIO");
+
+        p.ver(s.registrarDespliegue("DEP-0004", "MUL-010-G7H8",
+                "Modelo multimodal 10B", true, Modalidad.MULTIMODAL).getResultado(),
+                Resultado.OK, "Registro correcto de despliegue MULTIMODAL");
+
+        p.ver(s.registrarDespliegue("DEP-0005", "OTR-001-Z9Y8",
+                "Modelo de otros tipos", false, Modalidad.OTROS).getResultado(),
+                Resultado.OK, "Registro correcto de despliegue OTROS");
+
+        // ERROR_1: parámetros obligatorios nulos o vacíos.
+        p.ver(s.registrarDespliegue("", "AAA-001-A1B2", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Id vacio");
+
+        p.ver(s.registrarDespliegue(null, "AAA-001-A1B2", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Id null");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo vacio");
+
+        p.ver(s.registrarDespliegue("DEP-0010", null, "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo null");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAA-001-A1B2", "",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Descripcion vacia");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAA-001-A1B2", null,
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Descripcion null");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAA-001-A1B2", "Descripcion",
+                true, null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Modalidad null");
+
+        // ERROR_2: formato de código AAA-BBB-CCCC.
+        p.ver(s.registrarDespliegue("DEP-0010", "AA-001-A1B2", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Familia con menos de tres letras");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAAA-001-A1B2", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Familia con mas de tres letras");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "aaa-001-A1B2", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Familia en minusculas");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAA-01-A1B2", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Bloque numerico con menos de tres digitos");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAA-0001-A1B2", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Bloque numerico con mas de tres digitos");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAA-0A1-A1B2", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Bloque numerico con letras");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAA-001-A1B", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Build con menos de cuatro caracteres");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAA-001-A1B2X", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Build con mas de cuatro caracteres");
+
+        p.ver(s.registrarDespliegue("DEP-0010", "AAA-001-A1_2", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Build con caracter no alfanumerico");
+
+        // ERROR_3: id duplicado.
+        p.ver(s.registrarDespliegue("DEP-0001", "LLM-071-B1B2", "Otro modelo",
+                false, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_3, "ERROR_3 - Id duplicado");
+
+        // ERROR_4: código duplicado.
+        p.ver(s.registrarDespliegue("DEP-0010", "LLM-070-A1B2", "Otro modelo",
+                false, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_4, "ERROR_4 - Codigo duplicado");
+
+        // Prioridad de errores: se retorna el error de menor número.
+        p.ver(s.registrarDespliegue("DEP-0001", "codigo-invalido", "",
+                true, null).getResultado(),
+                Resultado.ERROR_1, "Prioridad - ERROR_1 antes que los demas errores");
+
+        p.ver(s.registrarDespliegue("DEP-0001", "codigo-invalido", "Descripcion",
+                true, Modalidad.TEXTO).getResultado(),
+                Resultado.ERROR_2, "Prioridad - ERROR_2 antes que duplicidad de id");
+
+        System.out.println("\n>>> ESTRUCTURAS LUEGO DE REGISTRAR DESPLIEGUES");
+      //  s.imprimirEstadoEstructuras();
+      
+      p.ver(s.listarDesplieguesPorIdAscendente().getResultado(), Resultado.OK, "Listado por Id ASC: \n"+s.listarDesplieguesPorIdAscendente().getValorString() );
+}    
+    public static void juegodepreubaBuscarDespliegue(Sistema s, Prueba p){
+          // =========================================================
+        // 03 - BUSCAR DESPLIEGUE POR ID
+        // =========================================================
+        p.tituloPrueba("03 - BUSCAR DESPLIEGUE POR ID");
+
+        p.ver(s.buscarDesplieguePorId("DEP-0001").getResultado(),
+                Resultado.OK, "Busqueda correcta por id");
+
+        p.ver(s.buscarDesplieguePorId("").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Id vacio");
+
+        p.ver(s.buscarDesplieguePorId(null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Id null");
+
+        p.ver(s.buscarDesplieguePorId("   ").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Id con espacios");
+
+        p.ver(s.buscarDesplieguePorId("DEP-9999").getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Id inexistente");
+
+    
+    
+    }
+    public static void juegodepruebaDesplieguesPorIDAsc(Sistema s,Prueba p){
+            // =========================================================
+        // 04 - LISTAR DESPLIEGUES POR ID ASCENDENTE
+        // =========================================================
+        p.tituloPrueba("04 - LISTAR DESPLIEGUES POR ID ASCENDENTE");
+
+        p.ver(s.listarDesplieguesPorIdAscendente().getResultado(),
+                Resultado.OK, "Listado de despliegues por id ascendente");
+
+        System.out.println("\n>>> RESULTADO DEL LISTADO POR ID ASCENDENTE");
+        imprimirDatosRetorno(s.listarDesplieguesPorIdAscendente());
+    }
+    public static void juegodepruebaDespoieguesPorIDDesc(Sistema s, Prueba p){
+           // =========================================================
+        // 05 - LISTAR DESPLIEGUES POR ID DESCENDENTE
+        // =========================================================
+        p.tituloPrueba("05 - LISTAR DESPLIEGUES POR ID DESCENDENTE");
+
+        p.ver(s.listarDesplieguesPorIdDescendente().getResultado(),
+                Resultado.OK, "Listado de despliegues por id descendente");
+
+        System.out.println("\n>>> RESULTADO DEL LISTADO POR ID DESCENDENTE");
+        imprimirDatosRetorno(s.listarDesplieguesPorIdDescendente());
+
+    
+    }
+    public static void juegodepruebaBuscarDesplieguePorCodigo(Sistema s, Prueba p){
+    
+     // =========================================================
+        // 06 - BUSCAR DESPLIEGUE POR CODIGO
+        // =========================================================
+        p.tituloPrueba("06 - BUSCAR DESPLIEGUE POR CODIGO");
+
+        p.ver(s.buscarDesplieguePorCodigo("LLM-070-A1B2").getResultado(),
+                Resultado.OK, "Busqueda correcta por codigo");
+
+        p.ver(s.buscarDesplieguePorCodigo("").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo vacio");
+
+        p.ver(s.buscarDesplieguePorCodigo(null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo null");
+
+        p.ver(s.buscarDesplieguePorCodigo("   ").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo con espacios");
+
+        p.ver(s.buscarDesplieguePorCodigo("LLM-07-A1B2").getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Formato de codigo incorrecto");
+
+        p.ver(s.buscarDesplieguePorCodigo("ZZZ-999-X1Y2").getResultado(),
+                Resultado.ERROR_3, "ERROR_3 - Codigo valido pero inexistente");
+
+    
+    }
+    public static void juegodepruebaListarDesplieguesPorCodigoASC(Sistema s, Prueba p){
+          // =========================================================
+        // 07 - LISTAR DESPLIEGUES POR CODIGO ASCENDENTE
+        // =========================================================
+        p.tituloPrueba("07 - LISTAR DESPLIEGUES POR CODIGO ASCENDENTE");
+
+        p.ver(s.listarDesplieguesPorCodigoAscendente().getResultado(),
+                Resultado.OK, "Listado de despliegues por codigo ascendente");
+
+        System.out.println("\n>>> RESULTADO DEL LISTADO POR CODIGO ASCENDENTE");
+        imprimirDatosRetorno(s.listarDesplieguesPorCodigoAscendente());  
+    }  
+    public static void juegodepruebaListarDesplieguesPorModalidad(Sistema s, Prueba p){
+           // =========================================================
+        // 08 - LISTAR DESPLIEGUES POR MODALIDAD
+        // =========================================================
+        p.tituloPrueba("08 - LISTAR DESPLIEGUES POR MODALIDAD");
+
+        p.ver(s.listarDesplieguesPorModalidad(Modalidad.TEXTO).getResultado(),
+                Resultado.OK, "Listado de despliegues modalidad TEXTO");
+
+        p.ver(s.listarDesplieguesPorModalidad(Modalidad.VISION).getResultado(),
+                Resultado.OK, "Listado de despliegues modalidad VISION");
+
+        p.ver(s.listarDesplieguesPorModalidad(Modalidad.AUDIO).getResultado(),
+                Resultado.OK, "Listado de despliegues modalidad AUDIO");
+
+        p.ver(s.listarDesplieguesPorModalidad(Modalidad.MULTIMODAL).getResultado(),
+                Resultado.OK, "Listado de despliegues modalidad MULTIMODAL");
+
+        p.ver(s.listarDesplieguesPorModalidad(Modalidad.OTROS).getResultado(),
+                Resultado.OK, "Listado de despliegues modalidad OTROS");
+
+        p.ver(s.listarDesplieguesPorModalidad(null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Modalidad null");
+
+        System.out.println("\n>>> DESPLIEGUES AGRUPADOS POR MODALIDAD");
+        for (Modalidad modalidad : Modalidad.values()) {
+            System.out.println("MODALIDAD: " + modalidad);
+            imprimirDatosRetorno(s.listarDesplieguesPorModalidad(modalidad));
+        }
+    
+    }
+    public static void juegodepruebaRegistrarRegion(Sistema s, Prueba p){
+            // =========================================================
+        // 09 - REGISTRAR REGION
+        // =========================================================
+        p.tituloPrueba("09 - REGISTRAR REGION");
+
+        p.ver(s.registrarRegion("us-east-1", "Virginia", "Estados Unidos", "A").getResultado(),
+                Resultado.OK, "Registro correcto de region us-east-1");
+
+        p.ver(s.registrarRegion("sa-east-1", "Sao Paulo", "Brasil", "B").getResultado(),
+                Resultado.OK, "Registro correcto de region sa-east-1");
+
+        p.ver(s.registrarRegion("eu-west-1", "Irlanda", "Irlanda", "C").getResultado(),
+                Resultado.OK, "Registro correcto de region eu-west-1");
+
+        p.ver(s.registrarRegion("ap-south-1", "Mumbai", "India", "D").getResultado(),
+                Resultado.OK, "Registro correcto de region ap-south-1");
+
+        p.ver(s.registrarRegion(null, "Nombre", "Pais", "Zona").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region null");
+
+        p.ver(s.registrarRegion("", "Nombre", "Pais", "Zona").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region vacio");
+
+        p.ver(s.registrarRegion("   ", "Nombre", "Pais", "Zona").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region con espacios");
+
+        p.ver(s.registrarRegion("xx-1", null, "Pais", "Zona").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Nombre null");
+
+        p.ver(s.registrarRegion("xx-1", "", "Pais", "Zona").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Nombre vacio");
+
+        p.ver(s.registrarRegion("xx-1", "Nombre", null, "Zona").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Pais null");
+
+        p.ver(s.registrarRegion("xx-1", "Nombre", "", "Zona").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Pais vacio");
+
+        p.ver(s.registrarRegion("xx-1", "Nombre", "Pais", null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Zona null");
+
+        p.ver(s.registrarRegion("xx-1", "Nombre", "Pais", "").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Zona vacia");
+
+        p.ver(s.registrarRegion("us-east-1", "Otra region", "Otro pais", "Z").getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Codigo de region duplicado");
+
+        System.out.println("\n>>> ESTRUCTURAS LUEGO DE REGISTRAR REGIONES");
+       // s.imprimirEstadoEstructuras();
+
+    
+    }
+    public static void juegodepruebaObtenerRegion(Sistema s,Prueba p){
+            // =========================================================
+        // 10 - OBTENER REGION
+        // =========================================================
+        p.tituloPrueba("10 - OBTENER REGION");
+
+        p.ver(s.obtenerRegion("us-east-1").getResultado(),
+                Resultado.OK, "Busqueda correcta de region");
+
+        p.ver(s.obtenerRegion("").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo vacio");
+
+        p.ver(s.obtenerRegion(null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo null");
+
+        p.ver(s.obtenerRegion("   ").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo con espacios");
+
+        p.ver(s.obtenerRegion("xx-unknown").getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Region inexistente");
+
+    
+    
+    }
+    public static void juegodepruebaSolicitudDespliegue(Sistema s, Prueba p){
+           // =========================================================
+        // 11 - SOLICITAR DESPLIEGUE EN REGION
+        // =========================================================
+        p.tituloPrueba("11 - SOLICITAR DESPLIEGUE EN REGION");
+
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0001", "us-east-1").getResultado(),
+                Resultado.OK, "Solicitud de DEP-0001 en us-east-1");
+
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0002", "us-east-1").getResultado(),
+                Resultado.OK, "Solicitud de DEP-0002 en us-east-1");
+
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0003", "us-east-1").getResultado(),
+                Resultado.OK, "Solicitud de DEP-0003 en us-east-1");
+
+        // El mismo despliegue puede estar pendiente/activo en otra región.
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0001", "sa-east-1").getResultado(),
+                Resultado.OK, "Solicitud del mismo despliegue en otra region");
+
+        p.ver(s.solicitarDespliegueEnRegion(null, "us-east-1").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Id de despliegue null");
+
+        p.ver(s.solicitarDespliegueEnRegion("", "us-east-1").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Id de despliegue vacio");
+
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0001", null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region null");
+
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0001", "").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region vacio");
+
+        p.ver(s.solicitarDespliegueEnRegion("DEP-9999", "us-east-1").getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Despliegue inexistente");
+
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0001", "xx-unknown").getResultado(),
+                Resultado.ERROR_3, "ERROR_3 - Region inexistente");
+
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0001", "us-east-1").getResultado(),
+                Resultado.ERROR_4, "ERROR_4 - Despliegue ya pendiente en esa region");
+
+        System.out.println("\n>>> ESTRUCTURAS LUEGO DE SOLICITAR DESPLIEGUES (COLAS FIFO)");
+        //s.imprimirEstadoEstructuras();
+
+    
+    
+    }
+    public static void juegodepruebaProcesarDespliegue(Sistema s, Prueba p){
+            // =========================================================
+        // 12 - PROCESAR SIGUIENTE DESPLIEGUE
+        // =========================================================
+        p.tituloPrueba("12 - PROCESAR SIGUIENTE DESPLIEGUE");
+
+        p.ver(s.procesarSiguienteDespliegue("us-east-1").getResultado(),
+                Resultado.OK, "Procesar primera solicitud de us-east-1 (FIFO)");
+
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0001", "us-east-1").getResultado(),
+                Resultado.ERROR_4, "ERROR_4 - Despliegue ya activo en esa region");
+
+        p.ver(s.procesarSiguienteDespliegue("us-east-1").getResultado(),
+                Resultado.OK, "Procesar segunda solicitud de us-east-1 (FIFO)");
+
+        p.ver(s.procesarSiguienteDespliegue("us-east-1").getResultado(),
+                Resultado.OK, "Procesar tercera solicitud de us-east-1 (FIFO)");
+
+        p.ver(s.procesarSiguienteDespliegue("").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region vacio");
+
+        p.ver(s.procesarSiguienteDespliegue(null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region null");
+
+        p.ver(s.procesarSiguienteDespliegue("   ").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region con espacios");
+
+        p.ver(s.procesarSiguienteDespliegue("xx-unknown").getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Region inexistente");
+
+        p.ver(s.procesarSiguienteDespliegue("us-east-1").getResultado(),
+                Resultado.ERROR_3, "ERROR_3 - No hay solicitudes pendientes");
+
+        // Procesar el mismo despliegue en la segunda región.
+        p.ver(s.procesarSiguienteDespliegue("sa-east-1").getResultado(),
+                Resultado.OK, "Procesar despliegue en otra region");
+
+        System.out.println("\n>>> ESTRUCTURAS LUEGO DE PROCESAR DESPLIEGUES (COLAS, PILAS Y ACTIVOS)");
+        //
+       // s.imprimirEstadoEstructuras();
+
+    
+    }
+    public static void juegodepruebaDesplieguesActivos(Sistema s, Prueba p){
+        // =========================================================
+        // 13 - LISTAR DESPLIEGUES ACTIVOS DE UNA REGION
+        // =========================================================
+        p.tituloPrueba("13 - LISTAR DESPLIEGUES ACTIVOS DE UNA REGION");
+
+        p.ver(s.listarDesplieguesActivosDeRegion("us-east-1").getResultado(),
+                Resultado.OK, "Listado de despliegues activos de us-east-1");
+
+        p.ver(s.listarDesplieguesActivosDeRegion("eu-west-1").getResultado(),
+                Resultado.OK, "Listado de region sin despliegues activos");
+
+        p.ver(s.listarDesplieguesActivosDeRegion("").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region vacio");
+
+        p.ver(s.listarDesplieguesActivosDeRegion(null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region null");
+
+        p.ver(s.listarDesplieguesActivosDeRegion("   ").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region con espacios");
+
+        p.ver(s.listarDesplieguesActivosDeRegion("xx-unknown").getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Region inexistente");
+
+        System.out.println("\n>>> DESPLIEGUES ACTIVOS POR REGION");
+        imprimirDatosRetorno(s.listarDesplieguesActivosDeRegion("us-east-1"));
+        imprimirDatosRetorno(s.listarDesplieguesActivosDeRegion("eu-west-1"));
+//        s.imprimirEstadoEstructuras();
+
+    
+    }
+    public static void juegodepruebaRetirarUltimoDespliegue(Sistema s, Prueba p){
+           // =========================================================
+        // 14 - RETIRAR ULTIMO DESPLIEGUE PROCESADO
+        // =========================================================
+        p.tituloPrueba("14 - RETIRAR ULTIMO DESPLIEGUE PROCESADO");
+
+        p.ver(s.retirarUltimoDespliegueProcesado("us-east-1").getResultado(),
+                Resultado.OK, "Retirar ultimo despliegue procesado de us-east-1 (LIFO)");
+
+        // El retiro de us-east-1 no debe afectar a sa-east-1.
+        p.ver(s.listarDesplieguesActivosDeRegion("sa-east-1").getResultado(),
+                Resultado.OK, "Verificar que el despliegue sigue activo en sa-east-1");
+
+        // El despliegue retirado puede solicitarse nuevamente en esa región.
+        p.ver(s.solicitarDespliegueEnRegion("DEP-0003", "us-east-1").getResultado(),
+                Resultado.OK, "Volver a solicitar el despliegue retirado");
+
+        p.ver(s.procesarSiguienteDespliegue("us-east-1").getResultado(),
+                Resultado.OK, "Procesar nuevamente el despliegue retirado");
+
+        p.ver(s.retirarUltimoDespliegueProcesado("us-east-1").getResultado(),
+                Resultado.OK, "Retirar nuevamente el despliegue procesado");
+
+        p.ver(s.retirarUltimoDespliegueProcesado("sa-east-1").getResultado(),
+                Resultado.OK, "Retirar despliegue de la segunda region");
+
+        p.ver(s.retirarUltimoDespliegueProcesado("").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region vacio");
+
+        p.ver(s.retirarUltimoDespliegueProcesado(null).getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region null");
+
+        p.ver(s.retirarUltimoDespliegueProcesado("   ").getResultado(),
+                Resultado.ERROR_1, "ERROR_1 - Codigo de region con espacios");
+
+        p.ver(s.retirarUltimoDespliegueProcesado("xx-unknown").getResultado(),
+                Resultado.ERROR_2, "ERROR_2 - Region inexistente");
+
+        p.ver(s.retirarUltimoDespliegueProcesado("eu-west-1").getResultado(),
+                Resultado.ERROR_3, "ERROR_3 - Region sin despliegues procesados activos");
+
+        System.out.println("\n>>> ESTRUCTURAS LUEGO DE RETIRAR DESPLIEGUES (VERIFICACION LIFO)");
+//        s.imprimirEstadoEstructuras();
+
+    
+    }
+    public static void juegodepruebaVerificacion(Sistema s, Prueba p){
+        // =========================================================
+        // VERIFICAR REINICIALIZACION
+        // =========================================================
+        p.tituloPrueba("VERIFICAR REINICIALIZACION DEL SISTEMA");
+
+        p.ver(s.inicializarSistema().getResultado(),
+                Resultado.OK, "Reinicializar el sistema");
+
+        p.ver(s.buscarDesplieguePorId("DEP-0001").getResultado(),
+                Resultado.ERROR_2, "Verificar que se eliminaron los despliegues");
+
+        p.ver(s.obtenerRegion("us-east-1").getResultado(),
+                Resultado.ERROR_2, "Verificar que se eliminaron las regiones");
+
+        p.ver(s.listarDesplieguesPorIdAscendente().getResultado(),
+                Resultado.OK, "Listado ascendente vacio luego de reinicializar");
+
+        p.ver(s.listarDesplieguesPorIdDescendente().getResultado(),
+                Resultado.OK, "Listado descendente vacio luego de reinicializar");
+
+        p.ver(s.listarDesplieguesPorCodigoAscendente().getResultado(),
+                Resultado.OK, "Listado por codigo vacio luego de reinicializar");
+
+        p.ver(s.listarDesplieguesPorModalidad(Modalidad.TEXTO).getResultado(),
+                Resultado.OK, "Listado por modalidad vacio luego de reinicializar");
+
+        p.tituloPrueba("FIN DE LAS PRUEBAS");
+    }   
+    
 }
