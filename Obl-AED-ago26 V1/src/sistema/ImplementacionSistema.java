@@ -201,32 +201,92 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno registrarRegion(String codigo, String nombre, String pais, String zona) {
-        return Retorno.noImplementada();
+        
+        if(checkVacioONull(codigo) || checkVacioONull(nombre) || checkVacioONull(pais) || checkVacioONull(zona)) return Retorno.error1();  
+        Region nueva = new Region(codigo,nombre,pais,zona);
+        if(RegionPorCod.contiene(nueva)) return Retorno.error2();    
+                
+        RegionPorCod.agregarOrdenado(nueva);            
+        
+        
+        return Retorno.ok();
     }
 
     @Override
     public Retorno obtenerRegion(String codigo) {
-        return Retorno.noImplementada();
+        if(checkVacioONull(codigo)) return Retorno.error1();
+        Region check = new Region(codigo,"","","");
+        Region ret = RegionPorCod.obtener(check);       
+        if(ret == null) return Retorno.error2();
+        
+        
+        return Retorno.ok(ret.toString());
     }
 
     @Override
     public Retorno solicitarDespliegueEnRegion(String idDespliegue, String codigoRegion) {
-        return Retorno.noImplementada();
+        if(checkVacioONull(idDespliegue) || checkVacioONull(codigoRegion)) return Retorno.error1();
+        Despliegue chkDes = new Despliegue(idDespliegue,"","",true,Modalidad.OTROS);
+        if(!DesPorId.buscarElemento(chkDes)) return Retorno.error2();
+        Region chkReg = new Region(codigoRegion,"","","");
+        if(!RegionPorCod.contiene(chkReg)) return Retorno.error3();
+         Region regAUsar = RegionPorCod.obtener(chkReg);
+         DesXCodigo des = new DesXCodigo(chkDes);
+          des = DesPorCod.obtenerElemento(des);
+        if(regAUsar.getActivos().contiene(des) || regAUsar.getPendientes().contiene(chkDes))return Retorno.error4();
+        
+        Despliegue desAUsar = DesPorId.obtenerElemento(chkDes);
+        regAUsar.getPendientes().encolar(desAUsar);
+        
+        
+        return Retorno.ok();
     }
 
     @Override
     public Retorno procesarSiguienteDespliegue(String codigoRegion) {
-        return Retorno.noImplementada();
+        if(checkVacioONull(codigoRegion)) return Retorno.error1();
+        Region chkReg = new Region(codigoRegion,"","","");
+        if(!RegionPorCod.contiene(chkReg)) return Retorno.error2();
+        Region regAUsar = RegionPorCod.obtener(chkReg);
+        if(regAUsar.getPendientes().esVacia()) return Retorno.error3();
+        Despliegue des = regAUsar.getPendientes().desencolar();
+        DesXCodigo desAct = new DesXCodigo(des);
+        regAUsar.getActivos().agregarOrdenado(desAct);
+        regAUsar.getHistorial().apilar(des);
+
+        
+        return Retorno.ok(des.toString());
     }
 
     @Override
     public Retorno listarDesplieguesActivosDeRegion(String codigoRegion) {
-        return Retorno.noImplementada();
+        if(checkVacioONull(codigoRegion)) return Retorno.error1();
+        Region chkReg = new Region(codigoRegion,"","","");
+        if(!RegionPorCod.contiene(chkReg)) return Retorno.error2();
+        Region regAUsar = RegionPorCod.obtener(chkReg);      
+       
+              
+        return Retorno.ok(regAUsar.getActivos().mostrar());
     }
 
     @Override
     public Retorno retirarUltimoDespliegueProcesado(String codigoRegion) {
-        return Retorno.noImplementada();
+        if(checkVacioONull(codigoRegion)) return Retorno.error1();
+        Region chkReg = new Region(codigoRegion,"","","");
+        if(!RegionPorCod.contiene(chkReg)) return Retorno.error2();
+        Region regAUsar = RegionPorCod.obtener(chkReg);
+        if(regAUsar.getActivos().esVacia()) return Retorno.error3();
+        Despliegue desRet = regAUsar.getHistorial().desapilar(); //Se desapila despligue
+        DesXCodigo desAct = new DesXCodigo(desRet);
+        regAUsar.getActivos().eliminar(desAct);
+        
+        
+        
+        return Retorno.ok(desRet.toString());
+    }
+    
+    private boolean checkVacioONull(String texto){        
+        return texto == null || texto.isBlank();
     }
 
 }

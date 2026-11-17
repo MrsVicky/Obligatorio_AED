@@ -9,12 +9,14 @@ package interfaces;
  * @author default
  */
 public interface IListaSimple<T> {
-        void agregarInicio(T dato);
+    void agregarInicio(T dato);
     void agregarFinal(T dato);
     boolean eliminar(T dato);
     boolean contiene(T dato);
     int largo();
-    T obtener(int posicion);
+    T obtener(T dato);
     boolean esVacia();
+    void agregarOrdenado(T dato);
+    String mostrar();
 }
 

@@ -4,14 +4,18 @@
  */
 package tads;
 
+import interfaces.IListaSimple;
+
 /**
  *
  * @author default
  */
 
-import interfaces.IListaSimple;
+public class ListaSimple<T extends Comparable<T>>
+        implements IListaSimple<T> {
 
-public class ListaSimple<T> implements IListaSimple<T> {
+    
+    
 
     private class Nodo {
         T dato;
@@ -75,6 +79,24 @@ public class ListaSimple<T> implements IListaSimple<T> {
         }
         largo++;
     }
+    
+    @Override
+    public void agregarOrdenado(T dato) {
+        
+        Nodo nuevo = new Nodo(dato);
+        if(this.esVacia() || dato.compareTo(this.inicio.dato)<0 ){
+        agregarInicio(dato);
+        }else{
+            Nodo aux = this.getInicio();
+            while (aux.siguiente!=null && aux.siguiente.dato.compareTo(dato)<0){
+            aux=aux.siguiente;
+            }
+            nuevo.siguiente=aux.siguiente;
+            aux.siguiente=nuevo;            
+            largo++;  
+        } 
+    }
+    
 
     @Override
     public boolean eliminar(T dato) {
@@ -116,21 +138,41 @@ public class ListaSimple<T> implements IListaSimple<T> {
     }
 
     @Override
-    public T obtener(int posicion) {
-        if (posicion <0 || posicion >=largo){
-            return null;
-        }
-        Nodo aux=inicio;
-        for(int i=0;i<posicion;i++){
+    public T obtener(T dato) {
+        Nodo aux = this.inicio;
+        
+        while (aux!=null){
+            if (aux.dato.equals(dato)){
+                return aux.dato;
+            }
             aux=aux.siguiente;
-        }
-        return aux.dato;
+        }        
+        
+        return null;
 
     }
 
     @Override
     public boolean esVacia() {
         return largo==0;
+    }
+    
+    @Override
+    public String mostrar() {
+         StringBuilder resultado = new StringBuilder();
+        Nodo aux = this.inicio;
+
+        while (aux != null) {
+            resultado.append(aux.dato);
+
+            if (aux.siguiente != null) {
+                resultado.append("|");
+            }
+
+            aux = aux.siguiente;
+        }
+
+        return resultado.toString();
     }
     
 }

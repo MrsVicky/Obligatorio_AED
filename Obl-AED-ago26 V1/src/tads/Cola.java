@@ -12,6 +12,7 @@ import interfaces.ICola;
 
 public class Cola<T> implements ICola<T> {   
 
+    
     private class Nodo {
         T dato;
         Nodo sig;
@@ -91,6 +92,20 @@ public class Cola<T> implements ICola<T> {
         else 
             return frente.dato;         
     }
+    
+    @Override
+    public boolean contiene(T dato) {
+        Nodo aux=this.frente;
+        while (aux!=null){
+            if (aux.dato.equals(dato)){
+                return true;
+            }
+            aux=aux.sig;
+        }
+        return false;
+        
+    }
+
 
     @Override
     public boolean esVacia() {
