@@ -70,7 +70,7 @@ public class Despliegue implements Comparable <Despliegue>{
     @Override
     public String toString(){       
         
-        return idDes + ";" + codigoDes + ";" + descripcion + ";" + cuantizado + ";" + modalidad;  
+        return idDes + ";" + codigoDes + ";" + descripcion + ";" + cuantizado + ";" + modalidad.getTexto();  
     }
           
     
