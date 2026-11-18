@@ -45,10 +45,7 @@ public class ImplementacionSistema implements Sistema {
          String descripcion, boolean cuantizado, Modalidad modalidad) {
 
      // ERROR_1: datos null, vacios o solamente espacios.
-     if (id == null || id.trim().isEmpty()
-             || codigo == null || codigo.trim().isEmpty()
-             || descripcion == null || descripcion.trim().isEmpty()
-             || modalidad == null) {
+     if (checkVacioONull(id) || checkVacioONull(codigo) || checkVacioONull(descripcion)|| modalidad== null) {
 
          return Retorno.error1();
      }
@@ -59,7 +56,7 @@ public class ImplementacionSistema implements Sistema {
      }
 
      Despliegue nuevo = new Despliegue(
-             id, codigo, descripcion, cuantizado, modalidad
+             id, codigo.trim(), descripcion, cuantizado, modalidad
      );
 
      // ERROR_3: ya existe ese ID.
@@ -231,11 +228,12 @@ public class ImplementacionSistema implements Sistema {
         Region chkReg = new Region(codigoRegion,"","","");
         if(!RegionPorCod.contiene(chkReg)) return Retorno.error3();
          Region regAUsar = RegionPorCod.obtener(chkReg);
-         DesXCodigo des = new DesXCodigo(chkDes);
+         Despliegue desAUsar = DesPorId.obtenerElemento(chkDes);
+         DesXCodigo des = new DesXCodigo(desAUsar);
           des = DesPorCod.obtenerElemento(des);
         if(regAUsar.getActivos().contiene(des) || regAUsar.getPendientes().contiene(chkDes))return Retorno.error4();
         
-        Despliegue desAUsar = DesPorId.obtenerElemento(chkDes);
+        
         regAUsar.getPendientes().encolar(desAUsar);
         
         
@@ -248,6 +246,7 @@ public class ImplementacionSistema implements Sistema {
         Region chkReg = new Region(codigoRegion,"","","");
         if(!RegionPorCod.contiene(chkReg)) return Retorno.error2();
         Region regAUsar = RegionPorCod.obtener(chkReg);
+        
         if(regAUsar.getPendientes().esVacia()) return Retorno.error3();
         Despliegue des = regAUsar.getPendientes().desencolar();
         DesXCodigo desAct = new DesXCodigo(des);

@@ -12,7 +12,7 @@ public class Main {
         Prueba prueba = new Prueba();
 
         prueba.inicializarResultadosPrueba();
-        //juegoDePrueba1(sistema, prueba);                                // todas las prueba 
+//        juegoDePrueba1(sistema, prueba);                                // todas las prueba 
         
         juegodepruebaRegistrarDespliegue(sistema,prueba);            //02
         juegodepreubaBuscarDespliegue(sistema,prueba);               //03
@@ -465,7 +465,7 @@ public class Main {
         p.ver(s.procesarSiguienteDespliegue("xx-unknown").getResultado(),
                 Resultado.ERROR_2, "ERROR_2 - Region inexistente");
 
-        p.ver(s.procesarSiguienteDespliegue("us-east-1").getResultado(),
+         p.ver(s.procesarSiguienteDespliegue("us-east-1").getResultado(),
                 Resultado.ERROR_3, "ERROR_3 - No hay solicitudes pendientes");
 
         // Procesar el mismo despliegue en la segunda región.
