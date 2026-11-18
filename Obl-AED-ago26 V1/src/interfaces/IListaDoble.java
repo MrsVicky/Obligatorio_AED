@@ -6,10 +6,7 @@ package interfaces;
 
 public interface IListaDoble<T> {
 
-    boolean esVacia();
-
-    void agregarInicio(T dato);
-    void agregarFin(T dato);
+    boolean esVacia();   
     void agregarOrd(T dato);
 
     void eliminarInicio();

@@ -12,7 +12,7 @@ public class Main {
         Prueba prueba = new Prueba();
 
         prueba.inicializarResultadosPrueba();
-//        juegoDePrueba1(sistema, prueba);                                // todas las prueba 
+        juegoDePrueba1(sistema, prueba);                                // todas las prueba 
         
         juegodepruebaRegistrarDespliegue(sistema,prueba);            //02
         juegodepreubaBuscarDespliegue(sistema,prueba);               //03

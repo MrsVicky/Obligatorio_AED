@@ -57,16 +57,16 @@ public class ListaSimple<T extends Comparable<T>>
     // abstractos
     //---------------------------------------------------
     
-    @Override
-    public void agregarInicio(T dato) {
+   
+    private void agregarInicio(T dato) {
         Nodo nuevo = new Nodo(dato);
         nuevo.siguiente = inicio;
         inicio = nuevo;
         largo++;
     }
 
-    @Override
-    public void agregarFinal(T dato) {
+    
+    private void agregarFinal(T dato) {
         Nodo nuevo = new Nodo(dato);   
         if (inicio==null){
             inicio=nuevo;

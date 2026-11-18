@@ -44,8 +44,8 @@ public class ListaDoble<T extends Comparable<T>>
         return primero == null;
     }
 
-    @Override
-    public void agregarInicio(T dato) {
+    
+    private void agregarInicio(T dato) {
         Nodo nuevo = new Nodo(dato);
 
         if (esVacia()) {
@@ -60,8 +60,8 @@ public class ListaDoble<T extends Comparable<T>>
         cantnodos++;
     }
 
-    @Override
-    public void agregarFin(T dato) {
+    
+    private void agregarFin(T dato) {
         Nodo nuevo = new Nodo(dato);
 
         if (esVacia()) {

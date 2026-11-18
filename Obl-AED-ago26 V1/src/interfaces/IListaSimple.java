@@ -9,8 +9,7 @@ package interfaces;
  * @author default
  */
 public interface IListaSimple<T> {
-    void agregarInicio(T dato);
-    void agregarFinal(T dato);
+    
     boolean eliminar(T dato);
     boolean contiene(T dato);
     int largo();
