@@ -105,7 +105,7 @@ public class ImplementacionSistema implements Sistema {
     public Retorno buscarDesplieguePorId(String id) {
 
         // ERROR_1: ID null, vacio o solamente espacios.
-        if (id == null || id.trim().isEmpty()) {
+        if (checkVacioONull(id)) {
             return Retorno.error1();
         }
 
@@ -138,7 +138,7 @@ public class ImplementacionSistema implements Sistema {
     public Retorno buscarDesplieguePorCodigo(String codigo) {
         
         // ERROR_1: código null, vacío o solamente espacios.
-        if (codigo == null || codigo.trim().isEmpty()) {
+        if (checkVacioONull(codigo)) {
             return Retorno.error1();
         }
 
