@@ -285,7 +285,7 @@ public class ImplementacionSistema implements Sistema {
     }
     
     private boolean checkVacioONull(String texto){        
-        return texto == null || texto.isBlank();
+         return texto == null || texto.trim().isEmpty();
     }
 
 }
